@@ -54,7 +54,7 @@ func (e *Exporter) Collect(ch chan<- prometheus.Metric) {
 	err = json.Unmarshal(bytes, &neighbors)
 
 	ch <- prometheus.MustNewConstMetric(
-		tableAccepted, prometheus.GaugeValue, float64(neighbors[0].State.Adj_table.Accepted),
+		tableAccepted, prometheus.GaugeValue, float64(neighbors[0].AfiSafis[0].State.Accepted),
 	)
 
 }
