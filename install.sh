@@ -8,8 +8,9 @@ if [ $? -eq 0 ]; then
 fi
 
 
-mv ./gobgp_exporter /usr/local/bin/gobgp_exporter
+install -Dm755 gobgp_exporter /usr/local/bin/gobgp_exporter
 
+mkdir -p /usr/lib/systemd/system
 tee /usr/lib/systemd/system/${service}.service << EOS
 [Unit]
 Description=GoBGP Exporter

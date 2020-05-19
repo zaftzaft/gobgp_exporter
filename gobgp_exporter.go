@@ -14,6 +14,7 @@ import (
 	"os/exec"
 
 	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/prometheus/common/log"
 	"github.com/prometheus/common/version"
 	"gopkg.in/alecthomas/kingpin.v2"
@@ -32,9 +33,7 @@ var (
 )
 
 type Exporter struct {
-
 }
-
 
 func NewExporter() (*Exporter, error) {
 	return &Exporter{}, nil
@@ -75,8 +74,6 @@ func main() {
 	kingpin.HelpFlag.Short('h')
 	kingpin.Parse()
 
-
-
 	exporter, err := NewExporter()
 
 	if err != nil {
@@ -85,7 +82,7 @@ func main() {
 
 	prometheus.MustRegister(exporter)
 
-	http.Handle(*metricsPath, prometheus.Handler())
+	http.Handle(*metricsPath, promhttp.Handler())
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte(`gobgp_exporter`))
 	})
